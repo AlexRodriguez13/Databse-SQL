@@ -34,7 +34,6 @@ end
 select * from Deptos
 
 NDpto 'Leon'
-
 --Dar baja
 create procedure BDpto
 @ID int
@@ -207,3 +206,56 @@ as
 select * from Municipios where EstadoM=1
 
 ListarMun
+
+
+--Ingresar proveedor
+
+alter table Proveedor add EstadoProv bit default 1 
+
+update Proveedor set EstadoProv=1
+
+create procedure NProv
+@NP nvarchar(35),
+@DP nvarchar(70),
+@TP char (8),
+@IDM int
+as
+declare @idmun as int
+set @idmun=(select Id_Prov from Proveedor where Id_Prov=@IDM)
+if(@NP='' or @DP='' or @TP='' )
+begin
+  print 'No puede ser nulo'
+end
+else
+begin
+  if(@IDM=@idmun)
+  begin
+    insert into Proveedor values(@NP,@DP,@TP,1,@IDM)
+  end
+  else
+  begin
+    print 'Proveedor no registrado'
+  end
+end
+
+select * from Proveedor
+
+NProv 1,'Alex Company','Tus nalgas','22224444'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
